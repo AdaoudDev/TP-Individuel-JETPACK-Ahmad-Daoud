@@ -31,7 +31,19 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TPAhmadDAOUDJetpackComposeTheme {
-                ProfileScreen()
+                ProfileScreen(
+                    name = "Ahmad Daoud",
+                    role = "Développeur Android junior",
+                    description = "Etudiant en M1 à l'ESGI, je développe des applis Android avec Kotlin et Jetpack Compose.",
+                    skills = listOf("Kotlin", "Jetpack Compose", "Git"),
+                    availability = "Disponible pour une alternance",
+                    onAvailabilityClick = {
+                        // affichera éventuellement la dispo
+                    },
+                    onContactClick = {
+                        // affichera éventuellement le contact
+                    }
+                )
             }
         }
     }
@@ -39,20 +51,25 @@ class MainActivity : ComponentActivity() {
 
 // Ecran principal de l'appli
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun ProfileScreen(
+    name: String,
+    role: String,
+    description: String,
+    skills: List<String>,
+    availability: String,
+    onAvailabilityClick: () -> Unit,
+    onContactClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(modifier = modifier.fillMaxSize()) { innerPadding ->
         ProfileCard(
-            name = "Ahmad Daoud",
-            role = "Développeur Android junior",
-            description = "Etudiant en M1 à l'ESGI, je développe des applis Android avec Kotlin et Jetpack Compose.",
-            skills = listOf("Kotlin", "Jetpack Compose", "Git"),
-            availability = "Disponible pour une alternance",
-            onAvailabilityClick = {
-                // affichera éventuellement la dispo
-            },
-            onContactClick = {
-                // affichera éventuellement le contact
-            },
+            name = name,
+            role = role,
+            description = description,
+            skills = skills,
+            availability = availability,
+            onAvailabilityClick = onAvailabilityClick,
+            onContactClick = onContactClick,
             // padding externe : c'est l'ecran qui place la fiche
             modifier = Modifier
                 .padding(innerPadding)
@@ -170,10 +187,36 @@ fun SkillItem(skill: String, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
+// Preview 1 : profil android junior dispo
+@Preview(showBackground = true, name = "Junior Android dispo")
 @Composable
-fun ProfileScreenPreview() {
+fun ProfileJuniorPreview() {
     TPAhmadDAOUDJetpackComposeTheme {
-        ProfileScreen()
+        ProfileScreen(
+            name = "Ahmad Daoud",
+            role = "Développeur Android junior",
+            description = "Etudiant en M1 à l'ESGI, je développe des applis Android avec Kotlin et Jetpack Compose.",
+            skills = listOf("Kotlin", "Jetpack Compose", "Git"),
+            availability = "Disponible pour une alternance",
+            onAvailabilityClick = {},
+            onContactClick = {}
+        )
+    }
+}
+
+// Preview 2 : profil full-stack pas dispo, avec d'autres compétences
+@Preview(showBackground = true, name = "Full-stack pas dispo")
+@Composable
+fun ProfileFullStackPreview() {
+    TPAhmadDAOUDJetpackComposeTheme {
+        ProfileScreen(
+            name = "Sarah Martin",
+            role = "Développeuse full-stack",
+            description = "5 ans d'expérience en web et mobile, surtout sur des API et du React.",
+            skills = listOf("TypeScript", "React", "Node.js", "PostgreSQL", "Docker"),
+            availability = "Pas disponible, en mission jusqu'en mars 2027",
+            onAvailabilityClick = {},
+            onContactClick = {}
+        )
     }
 }
