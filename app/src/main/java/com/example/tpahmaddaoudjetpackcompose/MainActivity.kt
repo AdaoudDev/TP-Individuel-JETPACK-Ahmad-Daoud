@@ -4,16 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +46,13 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             role = "Développeur Android junior",
             description = "Etudiant en M1 à l'ESGI, je développe des applis Android avec Kotlin et Jetpack Compose.",
             skills = listOf("Kotlin", "Jetpack Compose", "Git"),
+            availability = "Disponible pour une alternance",
+            onAvailabilityClick = {
+                // affichera éventuellement la dispo
+            },
+            onContactClick = {
+                // affichera éventuellement le contact
+            },
             // padding externe : c'est l'ecran qui place la fiche
             modifier = Modifier
                 .padding(innerPadding)
@@ -55,6 +68,9 @@ fun ProfileCard(
     role: String,
     description: String,
     skills: List<String>,
+    availability: String,
+    onAvailabilityClick: () -> Unit,
+    onContactClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -77,7 +93,50 @@ fun ProfileCard(
             skills.forEach { skill ->
                 SkillItem(skill = skill, modifier = Modifier.padding(top = 4.dp))
             }
+            AvailabilityInfo(
+                text = availability,
+                onClick = onAvailabilityClick,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            ContactButton(
+                text = "Contacter",
+                onClick = onContactClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            )
         }
+    }
+}
+
+// Zone cliquable pour la disponibilité
+@Composable
+fun AvailabilityInfo(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .semantics {
+                role = Role.Button
+                contentDescription = "$text, appuyer pour plus de détails"
+            },
+        color = MaterialTheme.colorScheme.tertiaryContainer
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(12.dp)
+        )
+    }
+}
+
+// Bouton contacter, le clic est géré par le parent
+@Composable
+fun ContactButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Text(text = text)
     }
 }
 
