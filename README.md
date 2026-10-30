@@ -47,4 +47,4 @@ Pour `ContactButton` j'ai rien ajouté car c'est un `Button`, il est déjà reco
 Ils affichent rien en dur, tout passe par des paramètres (nom, rôle, compétence, texte du bouton, callback...). Et ils prennent tous un `modifier: Modifier = Modifier` donc le parent peut les placer comme il veut. La preuve, les 2 previews utilisent les mêmes composables avec des données différentes.
 
 ## Capture d'écran
-![Capture de l'appli](Ecran avec Preview.png)
+![Capture de l'appli](Ecran-avec-Preview.png)
